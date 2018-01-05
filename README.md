@@ -1,140 +1,84 @@
-# The option plugin
- > It's an extension for our theme https://github.com/hieu-pv/nf-theme 
+# Extension Kit
+ > It's an extension kit for our theme https://github.com/hieu-pv/nf-theme 
  
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Option Scheme](#scheme)
-- [Translation](#translation)
+- [Compile asset file](#compiler)
+- [Service](#service)
 
  
 <a name="installation"></a>
 ## Installation
 
-### Step 1: Install Through Composer
+### Step 1: Clone repository
 ```
-composer require nf/option
+git clone https://github.com/hieu-pv/nf-extension-kit.git 
 ```
 
 <a name="configuration"></a>
 
-### Step 2: Add the Service Provider
+### Step 2: Update your information
 
-Open `config/app.php` and register the required service provider.
+If you want provide some function that is bootstrapped when wordpress start, we will register them in `src/ExtensionKitServiceProvider.php`
+
+> For example: register css/js file
+
+
+then in `config/app` of the theme we have to register service provider
 
 ```php
   'providers'  => [
         // .... Others providers 
-        \NightFury\Option\ThemeOptionServiceProvider::class,
+        \NightFury\ExtensionKit\ExtensionKitServiceProvider::class,
     ],
 ```
 
-<a name="scheme"></a>
+<a name="compiler"></a>
 
-### Step 3: Register your option scheme
+### Step 3: Compile asset file
 
-> {tip} You can add your option scheme to `functions.php`
+> {tip} You can write your own javascript in `assets/scripts/app.js`
+> and css in `assets/styles/app.scss`
 
-> For each scheme you added it create new section in Theme Configuration page.
+All compiled file will be located in `assets/dist`
 
-All supported type can be found here [https://github.com/hieu-pv/nf-theme-option/tree/master/src/Inputs](https://github.com/hieu-pv/nf-theme-option/tree/master/src/Inputs)
-
-```php
-
-use NightFury\Option\Abstracts\Input;
-use NightFury\Option\Facades\ThemeOptionManager;
-
-ThemeOptionManager::add([
-    'name'   => 'General',
-    'fields' => [
-        [
-            'label'    => 'Text',
-            'name'     => 'theme_option_text', // the key of option
-            'type'     => Input::TEXT,
-            'required' => true,
-        ],
-        [
-            'label'    => 'Textarea',
-            'name'     => 'theme_option_textarea',
-            'type'     => Input::TEXTAREA,
-            'required' => true,
-        ],
-        [
-            'label'    => 'Email',
-            'name'     => 'theme_option_email',
-            'type'     => Input::EMAIL,
-            'required' => true,
-        ],
-        [
-            'label'       => 'Gallery',
-            'name'        => 'theme_option_gallery',
-            'type'        => Input::GALLERY,
-            'description' => 'We can select multi file. Drag and Drop to re-order content'
-        ],
-        [
-            'label'       => 'Gallery With Meta Field',
-            'name'        => 'theme_option_gallery_with_meta',
-            'type'        => Input::GALLERY,
-            'description' => 'Gallery with meta field, for now we support text and textarea on meta field.',
-            'meta'        => [
-                [
-                    'label' => 'Text',
-                    'name'  => 'meta_text',
-                    'type'  => Input::TEXT,
-                ],
-                [
-                    'label' => 'Textarea',
-                    'name'  => 'meta_textarea',
-                    'type'  => Input::TEXTAREA,
-                ],
-            ],
-        ], [
-            'label'       => 'Image',
-            'name'        => 'theme_option_image',
-            'type'        => Input::IMAGE,
-            'description' => 'Choose your image by clicking the button bellow',
-        ],
-        [
-            'label'   => 'Select',
-            'name'    => 'theme_option_select',
-            'type'    => Input::SELECT,
-            'options' => [
-                [
-                    'value'    => 'first',
-                    'label'    => 'First Value',
-                    'selected' => true,
-                ],
-                [
-                    'value'    => 'second',
-                    'label'    => 'Second Value',
-                    'selected' => false,
-                ],
-            ],
-        ],
-    ],
-]);
-
+##### Install node module
 
 ```
-
-### Step 4: Get your option value
-
-we can get the value of option as usually via `get_option` function
-
-> {tip} for gallery value is a decoded string
-
-```php
-get_option('{option_name}');
-
+npm install
 ```
 
-<a name="translation"></a>
-
-## Translation
-
-if you want to customize configuration page
+##### Run asset compiler
 
 ```
-php command nfoption:publish
+npm run build
 ```
 
-It will create new file `resources/views/vendor/option/admin.blade.php` in your theme then you can update content of the configuration page
+##### Run asset compiler on production mode
+
+```
+npm run prod
+```
+
+##### Watch file change and compile
+
+```
+npm run watch
+```
+
+> {tip} You can write your own config in `webpack.config.js`
+
+<a name="service"></a>
+### Service
+
+Blade is the simple, yet powerful templating engine provided with this kit. You can use it via NightFury\ExtensionKit\Facades\View 
+
+> {tip} Blade file are located in `resources/views`
+
+For example we have a file `resources/views/example.blade.php` then we can use this file by following code
+
+```
+echo NightFury\ExtensionKit\Facades\View::render('example', ['data' => 'some test data here']);
+```
+
+For more information about blade engine [https://laravel.com/docs/5.5/blade](https://laravel.com/docs/5.5/blade)
