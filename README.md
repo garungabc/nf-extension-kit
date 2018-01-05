@@ -25,7 +25,7 @@ If you want provide some function that is bootstrapped when wordpress start, we 
 > For example: register css/js file
 
 
-then in `/config/app` of the theme we have to register service provider
+then in `config/app.php` of the theme we have to register service provider
 
 ```php
   'providers'  => [
