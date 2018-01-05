@@ -6,6 +6,7 @@
 - [Compile asset file](#compiler)
 - [Service](#service)
 - [Working with local repository](#local-reposoitory)
+- [Extension Configuration](#extension-configuration)
 
  
 <a name="installation"></a>
@@ -120,3 +121,88 @@ For example
     }
 ```
 For more information [https://getcomposer.org/doc/05-repositories.md](https://getcomposer.org/doc/05-repositories.md)
+
+<a name="extension-configuration"></a>
+## Extension Configuration
+
+In some case we need some configuration from user, we can use `nf/theme-option` package 
+
+Checkout package repository for install and supported field [https://github.com/hieu-pv/nf-theme-option](https://github.com/hieu-pv/nf-theme-option)
+
+##### Register option scheme in your service provider `src/ExtensionKitServiceProvider.php`
+
+```php
+use use NightFury\Option\Abstracts\Input;
+
+\NightFury\Option\Facades\ThemeOptionManager::add([
+    'name'   => 'Exetension Kit',
+    'fields' => [
+        [
+            'label'    => 'Text',
+            'name'     => 'theme_option_text',
+            'type'     => Input::TEXT,
+            'required' => true,
+        ],
+        [
+            'label'    => 'Textarea',
+            'name'     => 'theme_option_textarea',
+            'type'     => Input::TEXTAREA,
+            'required' => true,
+        ],
+        [
+            'label'    => 'Email',
+            'name'     => 'theme_option_email',
+            'type'     => Input::EMAIL,
+            'required' => true,
+        ],
+        [
+            'label'       => 'Gallery',
+            'name'        => 'theme_option_gallery',
+            'type'        => Input::GALLERY,
+            'description' => 'We can select multi file. Drag and Drop to re-order content',
+        ],
+        [
+            'label'       => 'Gallery With Meta Field',
+            'name'        => 'theme_option_gallery_with_meta',
+            'type'        => Input::GALLERY,
+            'description' => 'Gallery with meta field, for now we support text and textarea on meta field.',
+            'meta'        => [
+                [
+                    'label' => 'Text',
+                    'name'  => 'meta_text',
+                    'type'  => Input::TEXT,
+                ],
+                [
+                    'label' => 'Textarea',
+                    'name'  => 'meta_textarea',
+                    'type'  => Input::TEXTAREA,
+                ],
+            ],
+        ], [
+            'label'       => 'Image',
+            'name'        => 'theme_option_image',
+            'type'        => Input::IMAGE,
+            'description' => 'Choose your image by clicking the button bellow',
+        ],
+        [
+            'label'   => 'Select',
+            'name'    => 'theme_option_select',
+            'type'    => Input::SELECT,
+            'options' => [
+                [
+                    'value'    => 'first',
+                    'label'    => 'First Value',
+                    'selected' => true,
+                ],
+                [
+                    'value'    => 'second',
+                    'label'    => 'Second Value',
+                    'selected' => false,
+                ],
+            ],
+        ],
+    ],
+]);
+```
+
+
