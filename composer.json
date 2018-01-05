@@ -1,0 +1,17 @@
+{
+    "name": "nf/extension-kit",
+    "description": "Extension kit for NF Theme",
+    "license": "MIT",
+    "authors": [{
+        "name": "Hieupv",
+        "email": "hieupv@codersvn.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "NightFury\\ExtensionKit\\": "src/"
+        }
+    },
+    "require": {
+        "nf/core": ">=2.0"
+    }
+}
